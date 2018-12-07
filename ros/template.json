@@ -34,6 +34,22 @@
       "Label": "Allocate Public IP or Not",
       "Default": true
     },
+    "AddressType": {
+      "AllowedValues": [
+        "internet",
+        "intranet"
+      ],
+      "Default": "internet",
+      "Description": "Load balancer address type",
+      "Type": "String"
+    },
+    "Bandwidth": {
+      "Default": 1,
+      "Description": "Specify the peak bandwidth of public internet type instance, if PayByBandwidth is selected. The unit is Mbps.",
+      "MaxValue": 1000,
+      "MinValue": 1,
+      "Type": "Number"
+    },
     "SLB_InternetChargeType": {
       "AllowedValues": [
         "paybybandwidth",
@@ -125,14 +141,19 @@
         ]
       }
     },
-    "slb": {
-      "Type": "ALIYUN::SLB::LoadBalancer",
+    "LoadBalancer": {
       "Properties": {
-        "VpcId": {"Ref": "Vpc"},
-        "AddressType": "internet",
-        "VSwitchId": {"Ref": "Vswitch"},
-        "LoadBalancerName": "RosLb"
-      }
+        "AddressType": {
+          "Ref": "AddressType"
+        },
+        "Bandwidth": {
+          "Ref": "Bandwidth"
+        },
+        "InternetChargeType": {
+          "Ref": "SLB_InternetChargeType"
+        }
+      },
+      "Type": "ALIYUN::SLB::LoadBalancer"
     }
   },
   "Outputs": {
