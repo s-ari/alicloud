@@ -170,6 +170,27 @@
         }
       },
       "Type": "ALIYUN::SLB::BackendServerAttachment"
+    },
+    "Listener": {
+      "Type": "ALIYUN::SLB::Listener",
+      "Properties": {
+        "BackendServerPort": 80,
+        "Bandwidth": 1000,
+        "HealthCheck": {
+          "HealthyThreshold": 3,
+          "HttpCode": "http_2xx,http_3xx,http_4xx,http_5xx",
+          "Interval": 2,
+          "Timeout": 5,
+          "UnhealthyThreshold": 3,
+          "URI": "/"
+        },
+        "ListenerPort": "80",
+        "LoadBalancerId": {
+          "Ref": "Slb"
+        },
+        "Protocol": "http",
+        "Scheduler": "wrr"
+      }
     }
   },
   "Outputs": {
