@@ -93,6 +93,13 @@
         "IoOptimized": "optimized",
         "PrivateIpAddress": "10.0.0.1",
         "KeyPairName": "id_rsa.pub",
+        "HostName": "Ecs",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Ecs"
+          }
+        ],
         "VpcId": {
           "Ref": "Vpc"
         },
