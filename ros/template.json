@@ -141,7 +141,7 @@
         ]
       }
     },
-    "LoadBalancer": {
+    "Slb": {
       "Properties": {
         "AddressType": {
           "Ref": "AddressType"
@@ -154,6 +154,22 @@
         }
       },
       "Type": "ALIYUN::SLB::LoadBalancer"
+    },
+    "BackendEcs": {
+      "Properties": {
+        "BackendServers": [
+          {
+            "ServerId": {
+              "Ref": "Ecs"
+            },
+            "Weight": 100
+          }
+        ],
+        "LoadBalancerId": {
+          "Ref": "Slb"
+        }
+      },
+      "Type": "ALIYUN::SLB::BackendServerAttachment"
     }
   },
   "Outputs": {
