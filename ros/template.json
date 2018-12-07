@@ -33,6 +33,15 @@
       "Description": "Allocate Public IP or Not",
       "Label": "Allocate Public IP or Not",
       "Default": true
+    },
+    "SLB_InternetChargeType": {
+      "AllowedValues": [
+        "paybybandwidth",
+        "paybytraffic"
+      ],
+      "Default": "paybytraffic",
+      "Description": "The charge type of public internet SLB instance",
+      "Type": "String"
     }
   },
   "Resources": {
@@ -114,6 +123,15 @@
             "NicType": "intranet"
           }
         ]
+      }
+    },
+    "slb": {
+      "Type": "ALIYUN::SLB::LoadBalancer",
+      "Properties": {
+        "VpcId": {"Ref": "Vpc"},
+        "AddressType": "internet",
+        "VSwitchId": {"Ref": "Vswitch"},
+        "LoadBalancerName": "RosLb"
       }
     }
   },
