@@ -122,7 +122,16 @@
             "PortRange": "-1/-1",
             "Priority": 1,
             "SourceCidrIp": "0.0.0.0/0",
-            "IpProtocol": "all",
+            "IpProtocol": "tcp",
+            "PortRange": "22/22",
+            "NicType": "intranet"
+          },
+          {
+            "PortRange": "-1/-1",
+            "Priority": 1,
+            "SourceCidrIp": "0.0.0.0/0",
+            "IpProtocol": "tcp",
+            "PortRange": "80/80",
             "NicType": "intranet"
           }
         ],
