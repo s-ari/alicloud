@@ -40,63 +40,42 @@
       "Label": "Allocate Public IP or Not",
       "Default": true
     },
-    "SlbId": {
+    "VpcId": {
       "Type": "String",
-      "Description": "Allocate SLB ID",
-      "Label": "Allocate SLB ID",
-      "Default": "lb-e9bsg883nzjm89wzsnroa"
+      "Description": "Attach VPC ID",
+      "Label": "Attach VPC ID",
+      "Default": "vpc-6wexjf56d42palffblmj4"
+    },
+    "VswitchId": {
+      "Type": "String",
+      "Description": "Attach VSwitch ID",
+      "Label": "Attach VSwitch ID",
+      "Default": "vsw-6wesawtvz11vmekszpv0z"
     }
   },
   "Resources": {
-    "Vpc": {
-      "Type": "ALIYUN::ECS::VPC",
-      "Properties": {
-        "CidrBlock": "10.0.0.0/16",
-        "VpcName": "RosVpc"
-      }
-    },
-    "Vswitch": {
-      "Type": "ALIYUN::ECS::VSwitch",
-      "Properties": {
-        "VpcId": {
-          "Ref": "Vpc"
-        },
-        "ZoneId": {
-          "Fn::Select": [
-            "0",
-            {
-              "Fn::GetAZs": {
-                "Ref": "ALIYUN::Region"
-              }
-            }
-          ]
-        },
-        "CidrBlock": "10.0.0.0/24"
-      }
-    },
     "Ecs": {
       "Type": "ALIYUN::ECS::Instance",
       "Properties": {
         "IoOptimized": "optimized",
-        "PrivateIpAddress": "10.0.0.1",
         "KeyPairName": {
 	  "Ref": "KeyPairName"
 	},
-        "HostName": "blue-vsg",
+        "HostName": "canary-1a",
         "Tags": [
           {
             "Key": "Name",
-            "Value": "blue-vsg"
+            "Value": "canary-1a"
           }
         ],
         "VpcId": {
-          "Ref": "Vpc"
+          "Ref": "VpcId"
         },
         "SecurityGroupId": {
           "Ref": "Sg"
         },
         "VSwitchId": {
-          "Ref": "Vswitch"
+          "Ref": "VswitchId"
         },
         "ImageId": {
           "Ref": "ImageId"
@@ -114,7 +93,7 @@
       "Type": "ALIYUN::ECS::SecurityGroup",
       "Properties": {
         "VpcId": {
-          "Ref": "Vpc"
+          "Ref": "VpcId"
         },
         "SecurityGroupName": "mysg",
         "SecurityGroupIngress": [
@@ -142,24 +121,6 @@
             "IpProtocol": "all",
             "DestCidrIp": "0.0.0.0/0",
             "NicType": "intranet"
-          }
-        ]
-      }
-    },
-    "CreateVServerGroup": {
-      "Type": "ALIYUN::SLB::VServerGroup",
-      "Properties": {
-        "LoadBalancerId": {
-	  "Ref": "SlbId"
-	},
-        "VServerGroupName": "VServerGroupBlue",
-        "BackendServers": [
-          {
-            "ServerId": { 
-	      "Ref": "Ecs"
-	    },
-            "Weight": 100,
-            "Port": 80 
           }
         ]
       }
